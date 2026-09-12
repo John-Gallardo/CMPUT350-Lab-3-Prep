@@ -33,6 +33,46 @@ class UniquePtr {
 
         }
 
+        // TODO: converting constructor (U* -> T*)
+
+        T& operator*() {
+            return *m_ptr;
+        }
+
+        T* operator->() {
+            return m_ptr;
+        }
+
+        T* get() {
+            return m_ptr;
+        }
+
+        bool operator==(const UniquePtr<T> &other) const {
+            return other.get() == m_ptr;
+        }
+
+        T* release() {
+            // NOTE: I assume it's done by setting m_ptr to nullptr?
+            T *temp{m_ptr};
+            m_ptr = nullptr;
+            return temp;
+        }
+
+        void reset(T* newPtr = nullptr) {
+            delete m_ptr;
+            m_ptr = newPtr;
+        }
+
+        void swap(UniquePtr<T> &other) {
+            T *temp{other.release()};
+            other.reset(m_ptr);
+            m_ptr = temp;
+        }
+
+        operator bool() const {
+            return m_ptr != nullptr;
+        }
+
     private:
         T *m_ptr;
 };
