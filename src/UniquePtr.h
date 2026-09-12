@@ -53,7 +53,7 @@ class UniquePtr {
             return m_ptr;
         }
 
-        T* get() {
+        T* get() const {
             return m_ptr;
         }
 
