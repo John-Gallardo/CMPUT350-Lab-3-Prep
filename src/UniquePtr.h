@@ -24,16 +24,24 @@ class UniquePtr {
 
         // move constructor
         UniquePtr(UniquePtr<T> &&uniquePtr)
-        : m_ptr{*uniquePtr} {
-            
+        : m_ptr{uniquePtr.get()} {
+            uniquePtr.reset();
         }
 
         // move assignment
         UniquePtr<T> &operator=(UniquePtr<T> &&uniquePtr) {
-
+            this->reset();
+            m_ptr = uniquePtr.get();
+            uniquePtr.reset();
         }
 
-        // TODO: converting constructor (U* -> T*)
+        // converting constructor
+        template <typename U>
+        UniquePtr(UniquePtr<U> &&uniquePtr)
+        : m_ptr{uniquePtr.get()} {
+            // NOTE: I am assuming we are resetting uniquePtr since it's an r-value
+            uniquePtr.reset();
+        }
 
         T& operator*() {
             return *m_ptr;
@@ -76,5 +84,10 @@ class UniquePtr {
     private:
         T *m_ptr;
 };
+
+template <typename T, typename... Args>
+UniquePtr<T> makeUnique(Args &&... args) {
+
+}
 
 #endif
