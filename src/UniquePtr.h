@@ -26,14 +26,15 @@ class UniquePtr {
         // move constructor
         UniquePtr(UniquePtr<T> &&uniquePtr)
         : m_ptr{uniquePtr.get()} {
-            uniquePtr.reset();
+            uniquePtr.release();
         }
 
         // move assignment
         UniquePtr<T> &operator=(UniquePtr<T> &&uniquePtr) {
             this->reset();
             m_ptr = uniquePtr.get();
-            uniquePtr.reset();
+            uniquePtr.release();
+            return *this;
         }
 
         // converting constructor
