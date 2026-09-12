@@ -41,8 +41,8 @@ class UniquePtr {
         template <typename U>
         UniquePtr(UniquePtr<U> &&uniquePtr)
         : m_ptr{uniquePtr.get()} {
-            // NOTE: I am assuming we are resetting uniquePtr since it's an r-value
-            uniquePtr.reset();
+            // NOTE: I am assuming we are releasing uniquePtr since it's an r-value
+            uniquePtr.release();
         }
 
         T& operator*() {
