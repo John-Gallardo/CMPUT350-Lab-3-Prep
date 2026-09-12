@@ -1,5 +1,6 @@
 #ifndef UNIQUE_PTR_H
 #define UNIQUE_PTR_H
+#include <utility>
 
 // Your implementation here
 template <typename T>
@@ -86,8 +87,9 @@ class UniquePtr {
 };
 
 template <typename T, typename... Args>
-UniquePtr<T> makeUnique(Args &&... args) {
-
+UniquePtr<T> makeUnique(Args&&... args) {
+    // Reference: https://en.cppreference.com/cpp/memory/unique_ptr/make_unique
+    return UniquePtr<T>(new T(std::forward<Args>(args)...));
 }
 
 #endif
