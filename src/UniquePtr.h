@@ -53,12 +53,12 @@ class UniquePtr {
             return m_ptr;
         }
 
-        T* get() const {
+        T* get() {
             return m_ptr;
         }
 
         bool operator==(const UniquePtr<T> &other) const {
-            return other.get() == m_ptr;
+            return other.m_ptr == m_ptr;
         }
 
         T* release() {
